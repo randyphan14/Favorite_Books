@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"><link rel="stylesheet" type="text/css" href="{% static 'logreg_app/css/main.css' %}">
+    <title>Books Home</title>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome, {{user.alias}}!</h1>
+
+        <a href="book/add">Add Book and Reviews</a>
+
+        <a href = "clear">Log Out</a>
+    </div>
+
+    <div class="mid">
+        <div class="content">
+            <h3>Recent Book Reviews:</h3>
+            {% for review in reviews %}
+                <tr>
+                    <td><a href="/book/{{review.reviewed_book.id}}">{{review.reviewed_book.title}}</a></td><br>
+                    <td>Rating: {{review.rating}}</td><br>
+                    <td><a href="user/{{review.created_by.id}}">{{review.created_by.name}}</a> says: {{review.desc}}</td><br>
+                    <td>Posted on {{review.created_at}}</td><br><br>
+                </tr>
+            {% endfor %}
+        </div>
+
+
+        <div class="content">
+            <h3>Other books with Reviews:</h3>
+            {% for book in books %}
+                <tr>
+                    <td><a href="/book/{{book.id}}">{{book.title}}</a></td><br>
+                </tr>
+            {% endfor %}
+
+        </div>
+
+    </div>
+</body>
+</html>

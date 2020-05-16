@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"><link rel="stylesheet" type="text/css" href="{% static 'logreg_app/css/main.css' %}">
+    <title>Add Book and Review</title>
+</head>
+<body>
+    <div class="header">
+        <a href = "/books">Home</a>
+        <a href = "/clear">Log Out</a>
+    </div>
+
+    <div class="mid">
+        <h3>{{book.title}}</h3>
+        <h3>Author:
+            {% for author in authors %}
+            <tr>
+                <td>{{author.name}}</td>
+            </tr>
+            {% endfor %}
+
+        </h3>
+
+        <div class="content">
+            <h3>Reviews:</h3>
+            {% for review in reviews %}
+                <tr>
+                    <td><a href="/book/{{book.id}}">{{review.book.title}}</a></td><br>
+                    <td>Rating: {{review.rating}}</td><br>
+                    <td><a href="/user/{{review.created_by.id}}">{{review.created_by.name}}</a> says: {{review.desc}}</td><br>
+                    <td>Posted on {{review.created_at}}</td><br>
+                    {% if review.created_by == user %}
+                    <a href="/book/delete/{{review.id}}">Delete Review</a>
+                    {% endif %}
+                    <br>
+                </tr>
+            {% endfor %}
+        </div>
+
+
+        <div class="content">
+            <h3>Add a review:</h3>
+            <form action='create_review/{{book.id}}' method='post'>
+                {% csrf_token %}
+                Review: <input type='text' name='desc'>
+                Rating: <select id="rate" name="rate">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                <button type='submit'>Add Review</button>
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>
